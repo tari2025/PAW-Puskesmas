@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Medi-Chat</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      /* === LOGIN === */
+      #loginSection {
+        display: block;
+      }
+      #dashboardSection {
+        display: none;
+      }
+      .login-container {
+        max-width: 400px;
+        margin: 100px auto;
+        padding: 30px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      .login-container h2 {
+        text-align: center;
+        color: #2c7a7b;
+        margin-bottom: 25px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+      .btn-login {
+        width: 100%;
+        padding: 12px;
+        background: #2c7a7b;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      .btn-login:hover {
+        background: #225e5f;
+      }
+      .error-msg {
+        color: red;
+        text-align: center;
+        margin-top: 10px;
+        display: none;
+      }
+
+      /* === DASHBOARD === */
+      .navbar-admin {
+        background: #2c7a7b;
+        color: white;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .navbar-admin h3 {
+        margin: 0;
+      }
+      .btn-logout {
+        background: #e53e3e;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .container {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 20px;
+      }
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+      .menu-card {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .menu-card:hover {
+        transform: translateY(-5px);
+      }
+      .menu-card h4 {
+        color: #2c7a7b;
+        margin: 10px 0;
+      }
+      .section-box {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        margin-bottom: 20px;
+        display: none;
+      }
+      .section-box.active {
+        display: block;
+      }
+      .section-box input,
+      .section-box textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+      .btn-primary {
+        background: #2c7a7b;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 5px;
+      }
+      .btn-secondary {
+        background: #999;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .data-list {
+        margin-top: 15px;
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+      }
+      .data-item {
+        padding: 12px;
+        background: #f9f9f9;
+        border-left: 4px solid #2c7a7b;
+        margin-bottom: 8px;
+        border-radius: 4px;
+      }
+      .btn-icon {
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 16px;
+        margin-left: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- === SECTION LOGIN === -->
+    <div id="loginSection">
+      <div class="login-container">
+        <h2>🔐 Login Admin</h2>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              placeholder="Masukkan username"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Masukkan password"
+              required
+            />
+          </div>
+          <button type="submit" class="btn-login">Login</button>
+          <p class="error-msg" id="errorMsg">Username atau password salah!</p>
+        </form>
+        <p
+          style="
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+            font-size: 13px;
+          "
+        >
+          Demo: <b>admin</b> / <b>admin123</b>
+        </p>
+      </div>
+    </div>
+
+    <!-- === SECTION DASHBOARD === -->
+    <div id="dashboardSection">
+      <div class="navbar-admin">
+        <h3>🏥 Dashboard Admin - Puskesmas</h3>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+      </div>
+
+      <div class="container">
+        <h2>Selamat Datang, <span id="adminName">Admin</span>!</h2>
+
+        <div class="menu-grid">
+          <div class="menu-card" onclick="showSection('layanan')">
+            <div style="font-size: 40px">💊</div>
+            <h4>Kelola Layanan</h4>
+          </div>
+          <div class="menu-card" onclick="showSection('jadwal')">
+            <div style="font-size: 40px">📅</div>
+            <h4>Kelola Jadwal Dokter</h4>
+          </div>
+          <div class="menu-card" onclick="showSection('info')">
+            <div style="font-size: 40px">ℹ️</div>
+            <h4>Kelola Informasi RS</h4>
+          </div>
+        </div>
+
+        <!-- KELOLA LAYANAN -->
+        <div id="section-layanan" class="section-box">
+          <h3>Kelola Layanan</h3>
+          <input type="hidden" id="editIndexLayanan" value="" />
+          <input type="text" id="namaLayanan" placeholder="Nama Layanan" />
+          <textarea
+            id="deskripsiLayanan"
+            placeholder="Deskripsi Layanan"
+          ></textarea>
+          <button
+            class="btn-primary"
+            onclick="simpanLayanan()"
+            id="btnSimpanLayanan"
+          >
+            Tambah Layanan
+          </button>
+          <button
+            class="btn-secondary"
+            onclick="resetFormLayanan()"
+            id="btnBatalLayanan"
+            style="display: none"
+          >
+            Batal
+          </button>
+          <div class="data-list" id="listLayanan"></div>
+        </div>
+
+        <!-- KELOLA JADWAL -->
+        <div id="section-jadwal" class="section-box">
+          <h3>Kelola Jadwal Dokter</h3>
+          <input type="hidden" id="editIndexJadwal" value="" />
+          <input type="text" id="namaDokter" placeholder="Nama Dokter" />
+          <input type="text" id="spesialis" placeholder="Spesialis" />
+          <input type="text" id="hari" placeholder="Hari (contoh: Senin)" />
+          <input type="time" id="jamMulai" />
+          <input type="time" id="jamSelesai" />
+          <button
+            class="btn-primary"
+            onclick="simpanJadwal()"
+            id="btnSimpanJadwal"
+          >
+            Tambah Jadwal
+          </button>
+          <button
+            class="btn-secondary"
+            onclick="resetFormJadwal()"
+            id="btnBatalJadwal"
+            style="display: none"
+          >
+            Batal
+          </button>
+          <div class="data-list" id="listJadwal"></div>
+        </div>
+
+        <!-- KELOLA INFORMASI RS -->
+        <div id="section-info" class="section-box">
+          <h3>Kelola Informasi RS</h3>
+          <input type="text" id="namaRS" placeholder="Nama Puskesmas" />
+          <textarea id="alamatRS" placeholder="Alamat"></textarea>
+          <input type="text" id="teleponRS" placeholder="No. Telepon" />
+          <button class="btn-primary" onclick="simpanInfo()" id="btnSimpanInfo">
+            Simpan Informasi
+          </button>
+          <button
+            class="btn-secondary"
+            onclick="resetFormInfo()"
+            id="btnBatalInfo"
+            style="display: none"
+          >
+            Batal
+          </button>
+          <div class="data-list" id="listInfo"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/admin.js"></script>
+  </body>
+</html>
